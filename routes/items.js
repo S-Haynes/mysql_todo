@@ -23,10 +23,10 @@ router.delete("/:id", (req, res) => {
   db.query(q, (err, results, fields) => {
     if (err) throw err;
     if (results.affectedRows === 0) {
-      return res.status(404).json({ error: "item not found" });
+      return res.status(404).json({ error: "Item not found." });
     }
 
-    return res.status(200).json({ msg: "item deleted" });
+    return res.status(200).json({ msg: "Item successfully deleted." });
   });
 });
 
@@ -57,7 +57,7 @@ router.get("/search", (req, res) => {
     (err, results, fields) => {
       if (err) throw err;
       if (results.affectedRows === 0) {
-        return res.status(404).json({ error: "items not found" });
+        return res.status(404).json({ error: "no items found" });
       }
 
       return res.status(200).json({ items: results });
