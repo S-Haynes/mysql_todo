@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database");
+const faker = require("faker");
 
 // Create an item
 router.post("/", (req, res) => {
@@ -57,7 +58,7 @@ router.get("/search", (req, res) => {
   const { term } = req.query;
 
   db.query(
-    "SELECT * FROM item WHERE item_name LIKE ?",
+    "SELECT * FROM item WHERE item_name LIKE ? LIMIT 10",
     ["%" + term + "%"],
     (err, results, fields) => {
       if (err) throw err;
@@ -78,5 +79,24 @@ router.get("/all", (req, res) => {
     return res.status(200).json(results);
   });
 });
+
+//seed db
+// router.get("/seed", (req, res) => {
+//   for (let i = 0; i < 500; i++) {
+//     const item = {
+//       item_name: faker.commerce.productName(),
+//       price: faker.commerce.price()
+//     };
+
+//     db.query("INSERT INTO item SET ?", [item], (err, results) => {
+//       if (err) {
+//         console.log(err);
+//         return;
+//       }
+//     });
+//   }
+
+//   res.send("seeding...");
+// });
 
 module.exports = router;
