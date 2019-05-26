@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database");
 
+// Create an item
 router.post("/", (req, res) => {
   const { name, price } = req.body;
   const item = {
@@ -11,10 +12,12 @@ router.post("/", (req, res) => {
 
   db.query("INSERT INTO item SET ?", item, (err, results, fields) => {
     if (err) throw err;
-    return res.status(200).json(item);
+
+    return res.status(200).json({ ...item, id: results.insertId });
   });
 });
 
+// Delete an item
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
@@ -30,6 +33,7 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+// Update an item
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const { name } = req.body;
@@ -48,6 +52,7 @@ router.put("/:id", (req, res) => {
   );
 });
 
+// Search for matching items
 router.get("/search", (req, res) => {
   const { term } = req.query;
 
@@ -60,16 +65,17 @@ router.get("/search", (req, res) => {
         return res.status(404).json({ error: "no items found" });
       }
 
-      return res.status(200).json({ items: results });
+      return res.status(200).json(results);
     }
   );
 });
 
+// Get all items
 router.get("/all", (req, res) => {
-  db.query("SELECT * from item", (err, results, fields) => {
+  db.query("SELECT * from item LIMIT 10", (err, results, fields) => {
     if (err) throw err;
 
-    return res.status(200).json({ items: results });
+    return res.status(200).json(results);
   });
 });
 

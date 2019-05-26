@@ -1,0 +1,17 @@
+.Card {
+  position: relative;
+  border: 1px solid black;
+  margin: 0 auto;
+  max-width: 500px;
+  max-height: 400px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.X {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 10px;
+  height: 10px;
+}
