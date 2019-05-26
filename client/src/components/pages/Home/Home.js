@@ -22,7 +22,9 @@ const Home = () => {
   if (items && items.length > 0) {
     content = items.map(item => (
       <div key={item.id} className="Card">
-        <div className="X">X</div>
+        <div onClick={() => onDeleteItemHandler(item.id)} className="X">
+          X
+        </div>
         <h2>{item.item_name}</h2>
         <h4>Price: ${item.price}</h4>
       </div>
@@ -52,6 +54,15 @@ const Home = () => {
       .get(`/api/items/search?term=${search}`)
       .then(res => {
         setItems(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const onDeleteItemHandler = id => {
+    axios
+      .delete(`/api/items/${id}`)
+      .then(res => {
+        setItems(items.filter(item => item.id !== id));
       })
       .catch(err => console.log(err));
   };
